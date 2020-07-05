@@ -10,29 +10,28 @@ var Pools = (function() {
                 __FnList[key].push(fn);
             }
         },
-        Receive: function(key, fnkey, obj) {
-            if (!__FnList[fnkey]) {
+        Receive: function(key, channelkey, obj) {
+            if (!__FnList[channelkey]) {
                 return;
             }
             if (typeof __ChanList[key] === 'undefined') {
-                __ChanList[key] = [{ fnkey: fnkey, obj: obj }];
+                __ChanList[key] = [{ channelkey: channelkey, obj: obj }];
             } else {
-                __ChanList[key].push({ fnkey: fnkey, obj: obj });
+                __ChanList[key].push({ channelkey: channelkey, obj: obj });
             }
         },
         Send: function(key, rlt) {
             if (!__ChanList[key] || __ChanList[key].length == 0) {
                 return;
             }
-            var fnkey = __ChanList[key][0].fnkey;
-            if (!__FnList[fnkey]) {
+            var channelkey = __ChanList[key][0].channelkey;
+            if (!__FnList[channelkey]) {
                 return;
             }
-            if (__FnList[fnkey] instanceof Array && __ChanList[key] instanceof Array && __ChanList[key].length > 0) {
-                for (var i = __FnList[fnkey].length - 1; i >= 0; i--) {
-                    __FnList[fnkey][i].call(__ChanList[key][0].obj, rlt);
+            if (__FnList[channelkey] instanceof Array && __ChanList[key] instanceof Array && __ChanList[key].length > 0) {
+                for (var i = __FnList[channelkey].length - 1; i >= 0; i--) {
+                    __FnList[channelkey][i].call(__ChanList[key][0].obj, rlt);
                 }
-
             }
         },
         Finish: function(key) {
@@ -40,10 +39,10 @@ var Pools = (function() {
                 __ChanList[key].splice(0, 1);
             }
         },
-        ClearChannel: function(key) {
+        ClearChannel: function(channelkey) {
             for (key in __ChanList) {
                 if (__ChanList[key] instanceof Array && __ChanList[key].length > 0) {
-                    __ChanList[key] = __ChanList[key].filter(o => o.fnkey != key);
+                    __ChanList[key] = __ChanList[key].filter(o => o.channelkey != channelkey);
                 }
             }
         },
