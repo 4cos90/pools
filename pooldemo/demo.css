@@ -1,0 +1,21 @@
+textarea {
+    float: left;
+    resize: none;
+    width: 400px;
+    height: 200px;
+    margin: 5px;
+}
+
+button {
+    float: left;
+    width: 100px;
+    height: 45px;
+    margin: 5px;
+}
+
+input {
+    float: left;
+    width: 200px;
+    height: 40px;
+    margin: 5px;
+}

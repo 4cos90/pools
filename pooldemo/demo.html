@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="zh-cn">
+
+<head>
+    <meta charset="utf-8">
+    <title>demo</title>
+    <link type="text/css" rel="styleSheet" href="./demo.css" />
+
+    <body>
+        <script type="text/javascript" src="./pools.js"></script>
+        <div style="float:left;width: 100%;">
+            <input id="ReceiveKey" placeholder="Please Input Key"><input id="ReceiveMsg" placeholder="Please Input Msg"><button onclick="ReceiveClick()">NewReceive</button>
+            <input id="SendKey" placeholder="Please Input Key"><input id="SendRlt" placeholder="Please Input Rlt"><button onclick="SendClick()">NewSend</button>
+        </div>
+        <div style="margin-top:10px;float:left;width: 100%;">
+            <textarea id="Result" readonly="readonly"></textarea>
+        </div>
+    </body>
+    <script>
+        var fn = function(rlt) {
+            console.log(this.msg + ":" + rlt);
+            document.getElementById("Result").value += "\n" + this.msg + ":" + rlt;
+        }
+
+        Pools.NewChannel("testChannel", fn);
+        Pools.Receive("Apple", "testChannel", {
+            msg: "My Apple"
+        });
+        Pools.Send("Apple", "Red");
+
+        function ReceiveClick() {
+            var receiveKey = document.getElementById("ReceiveKey").value;
+            var receiveMsg = document.getElementById("ReceiveMsg").value;
+            if (receiveKey) {
+                Pools.Receive(receiveKey, "testChannel", {
+                    msg: receiveMsg
+                });
+            }
+        }
+
+        function SendClick() {
+            var sendKey = document.getElementById("SendKey").value;
+            var sendRlt = document.getElementById("SendRlt").value;
+            if (sendKey) {
+                Pools.Send(sendKey, sendRlt);
+            }
+        }
+    </script>
+
+</html>
